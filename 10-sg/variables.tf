@@ -26,7 +26,7 @@ variable "sg_names" {
     "mongodb", "redis", "mysql", "rabbitmq",
     "catalogue", "user", "cart", "shipping", "payment",
     "backend_alb",
-    "fronted",
+    "frontend",
     "frontend_alb",
     "bastion", "vpn"
   ]
