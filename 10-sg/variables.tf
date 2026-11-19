@@ -1,3 +1,15 @@
+variable "project" {
+  default = "roboshop"
+
+}
+
+variable "environment" {
+  default = "dev"
+
+}
+
+
+
 
 # variable "mongodb_sg_name" {
 #   default = "mongodb"
