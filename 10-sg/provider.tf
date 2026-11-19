@@ -6,8 +6,8 @@ terraform {
     }
   }
   backend "s3" {
-    bucket       = "roboshop-tf-file-92"
-    key          = "remote-statefile.tfstate"
+    bucket       = "remote-tf-file-dev"
+    key          = "sg.tfstate"
     region       = "us-east-1"
     encrypt      = true
     use_lockfile = true
