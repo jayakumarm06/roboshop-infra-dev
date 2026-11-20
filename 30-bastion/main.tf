@@ -4,7 +4,7 @@ resource "aws_instance" "bastion" {
   subnet_id              = local.public_subnet_id
   vpc_security_group_ids = [local.bastion_sg_id]
   iam_instance_profile   = aws_iam_instance_profile.bastion.name
-  # associate_public_ip_address = true
+
 
   user_data = templatefile("${path.module}/bastion.sh.tftpl", {
     partition_number = 4
