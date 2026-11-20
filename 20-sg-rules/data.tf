@@ -53,3 +53,7 @@ data "aws_ssm_parameter" "bastion_sg_id" {
 data "aws_ssm_parameter" "vpn_sg_id" {
   name = "/${var.project}/${var.environment}/vpn_sg_id"
 }
+
+data "http" "my_ipv4" {
+  url = "https://api4.ipify.org"
+}
