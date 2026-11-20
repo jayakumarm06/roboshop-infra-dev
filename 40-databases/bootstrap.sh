@@ -1,4 +1,4 @@
-#1/bin/bash
+#!/bin/bash
 
 dnf install ansible -y
 cd /home/ec2-user
