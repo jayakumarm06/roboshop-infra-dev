@@ -4,7 +4,7 @@ component=$1
 environment=$2
 
 dnf install ansible -y
-pip3.9 install botocore boto3
+# pip3.9 install botocore boto3
 cd /home/ec2-user
 git clone https://github.com/jayakumarm06/roboshop-ansible-v3.git
 cd roboshop-ansible-v3
