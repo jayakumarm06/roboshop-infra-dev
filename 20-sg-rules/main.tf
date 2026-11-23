@@ -332,7 +332,8 @@ resource "aws_vpc_security_group_ingress_rule" "frontend_alb_public_https" {
 resource "aws_vpc_security_group_ingress_rule" "bastion_mylap" {
   security_group_id = local.bastion_sg_id #destination
 
-  cidr_ipv4   = "${chomp(data.http.my_ipv4.response_body)}/32"
+  cidr_ipv4 = "${chomp(data.http.my_ipv4.response_body)}/32"
+  # cidr_ipv4   = "0.0.0.0/0"
   from_port   = 22
   ip_protocol = "tcp"
   to_port     = 22
