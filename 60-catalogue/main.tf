@@ -34,3 +34,26 @@ resource "terraform_data" "bootstrap" {
     ]
   }
 }
+
+#stop the instance to prepare the AMI
+#Note: here 3rd resource is not dependent on 2nd resource that is why we are creating dependncy here
+resource "aws_ec2_instance_state" "catalogue" {
+  instance_id = aws_instance.catalogue.id
+  state       = "stopped"
+
+  depends_on = [terraform_data.bootstrap]
+}
+
+## creating the AMI catalogue
+resource "aws_ami_from_instance" "catalogue" {
+  name               = "${local.common_name}-catalogue-${var.app_version}-${aws_instance.catalogue.id}" #roboshop-dev-catalogue-v4-instance_id
+  source_instance_id = aws_ec2_instance_state.catalogue.id
+
+  depends_on = [aws_ec2_instance_state.catalogue]
+  tags = merge(
+    local.common_tags,
+    {
+      Name = "${local.common_name}-catalogue-${var.app_version}-${aws_instance.catalogue.id}" #roboshop-dev-catalogue-v4-instance_id
+    }
+  )
+}
