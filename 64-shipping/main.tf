@@ -3,6 +3,7 @@ resource "aws_instance" "shipping" {
   instance_type          = "t3.micro"
   subnet_id              = local.private_subnet_id
   vpc_security_group_ids = [local.shipping_sg_id]
+  iam_instance_profile   = aws_iam_instance_profile.shipping.name
 
   tags = merge(
     local.common_tags,
