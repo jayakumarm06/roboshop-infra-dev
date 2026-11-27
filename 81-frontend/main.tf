@@ -1,8 +1,8 @@
 resource "aws_instance" "frontend" {
   ami           = local.ami_id
   instance_type = "t3.micro"
-  # subnet_id              = local.private_subnet_id
-  subnet_id              = local.public_subnet_id
+  subnet_id     = local.private_subnet_id
+  # subnet_id              = local.public_subnet_id
   vpc_security_group_ids = [local.frontend_sg_id]
 
   tags = merge(
@@ -20,8 +20,8 @@ resource "terraform_data" "bootstrap" {
     type     = "ssh"
     user     = "ec2-user"
     password = "DevOps321"
-    # host     = aws_instance.frontend.private_ip
-    host = aws_instance.frontend.public_ip
+    host     = aws_instance.frontend.private_ip
+    # host = aws_instance.frontend.public_ip
   }
   provisioner "file" {
     source      = "${path.module}/bootstrap.sh"
@@ -98,7 +98,7 @@ resource "aws_launch_template" "frontend" {
 #target_group
 resource "aws_lb_target_group" "frontend" {
   name                 = "${local.common_name}-frontend"
-  port                 = 8080
+  port                 = 80
   protocol             = "HTTP"
   vpc_id               = local.vpc_id
   deregistration_delay = 10
@@ -108,8 +108,8 @@ resource "aws_lb_target_group" "frontend" {
     unhealthy_threshold = 2
     interval            = 10
     matcher             = "200-299"
-    path                = "/health"
-    port                = 8080
+    path                = "/"
+    port                = 80
     protocol            = "HTTP"
     timeout             = 5
   }
@@ -128,9 +128,9 @@ resource "aws_autoscaling_group" "frontend" {
     id      = aws_launch_template.frontend.id
     version = "$Latest"
   }
-  # vpc_zone_identifier = local.private_subnet_ids
-  vpc_zone_identifier = local.public_subnet_ids
-  target_group_arns   = [aws_lb_target_group.frontend.arn]
+  vpc_zone_identifier = local.private_subnet_ids
+  # vpc_zone_identifier = local.public_subnet_ids
+  target_group_arns = [aws_lb_target_group.frontend.arn]
 
   instance_refresh {
     strategy = "Rolling"
